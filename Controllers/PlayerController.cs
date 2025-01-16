@@ -14,6 +14,7 @@ namespace Ws1.Controllers
             new Player { Id = 1, Name = "Polo", FirstName = "Jean", Ranking=1},
             new Player { Id = 2, Name = "Sampras", FirstName = "Pierre", Ranking=2},
         };
+        private static int MaxId = 2;
         [HttpGet()]
         public List<Player> Get()
         {
@@ -21,9 +22,12 @@ namespace Ws1.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Player player)
+        public ObjectResult Post([FromBody] Player player)
         {
-            
+            MaxId++;
+            player.Id = MaxId;
+            PlayerList.Add(player);
+            return Created($"api/player/{player.Id}", new { Id = player.Id});
         }
     }
 }
